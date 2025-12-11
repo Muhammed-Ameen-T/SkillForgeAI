@@ -122,5 +122,5 @@ If this application were to be deployed for thousands of users in a production e
   - 💼 [LinkedIn Profile](https://www.google.com/search?q=https://linkedin.com/in/YOUR_LINKEDIN_USERNAME)
 
 -----
-
+s
 *Submitted as part of the Full-Stack Developer Assignment for House of EdTech.*
