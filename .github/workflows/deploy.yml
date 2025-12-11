@@ -3,33 +3,35 @@ name: CI Pipeline
 on:
   push:
     branches: [ "main" ]
+    paths:             # Only run this when files in 'backend' change
+      - 'backend/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'backend/**'
 
 jobs:
-  # Railway watches this job. If it fails, Railway won't deploy.
   check:
     runs-on: ubuntu-latest
+    
+    # This setting creates the default context for all steps
+    defaults:
+      run:
+        working-directory: ./backend
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 1. Install Node to run checks
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
+          cache-dependency-path: backend/package-lock.json # Tell cache where lockfile is
 
-      # 2. Install dependencies (Clean install)
       - name: Install Dependencies
         run: npm ci
 
-      # 3. Check for Build Errors (simulates a build)
-      # This ensures your Typescript/code actually compiles before Railway tries
       - name: Verify Build
         run: npm run build
-
-      # 4. (Optional) Run Tests/Lint
-      # - name: Run Lint
-      #   run: npm run lint
