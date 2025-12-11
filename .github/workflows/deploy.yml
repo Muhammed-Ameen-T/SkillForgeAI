@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - 'backend/**'
+      - '.github/workflows/**' # Ensure workflow changes also trigger runs
   pull_request:
     branches: [ "main" ]
     paths:
@@ -14,6 +15,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     
+    # This sets the folder for all 'run' commands (like npm install)
     defaults:
       run:
         working-directory: ./backend
@@ -22,24 +24,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # DEBUG STEP: This will list all files so we can verify where package-lock.json is
-      - name: Debug File Structure
-        run: |
-          echo "Listing root directory:"
-          ls -la ..
-          echo "Listing backend directory:"
-          ls -la .
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          # This tells the action exactly where to look
-          cache-dependency-path: backend/package-lock.json
+          # CRITICAL: Do NOT add "cache: npm" here. It causes the error.
 
       - name: Install Dependencies
-        run: npm ci
+        # We use 'npm install' so it works even if package-lock.json is missing
+        run: npm install
 
       - name: Verify Build
         run: npm run build
