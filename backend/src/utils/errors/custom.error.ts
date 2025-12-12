@@ -1,4 +1,4 @@
-import { BaseError } from "./base.error";
+import { BaseError } from './base.error';
 
 /**
  * Custom error class extending the BaseError class.

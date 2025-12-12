@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv';
 import { HttpResCode } from '../utils/constants/httpResponseCode.utils';
 import { CustomError } from '../utils/errors/custom.error';
@@ -74,7 +73,7 @@ export const env = {
   },
 
   get REFRESH_TOKEN_EXPIRY(): string {
-    return process.env.REFRESH_TOKEN_EXPIRY || '7d'; 
+    return process.env.REFRESH_TOKEN_EXPIRY || '7d';
   },
 
   get SESSION_SECRET(): string {
@@ -105,44 +104,14 @@ export const env = {
   },
 
   get REDIS_USERNAME(): string | undefined {
-    return process.env.REDIS_USERNAME; 
+    return process.env.REDIS_USERNAME;
   },
   get REDIS_URL(): string | undefined {
     return process.env.REDIS_URL;
   },
 
   get REDIS_PASSWORD(): string | undefined {
-    return process.env.REDIS_PASSWORD; 
-  },
-
-  get CLOUDINARY_CLOUD_NAME(): string {
-    if (!process.env.CLOUDINARY_CLOUD_NAME) {
-      throw new CustomError(
-        EnvErrMsg.CLOUDINARY_CLOUD_NAME_UNDEFINED,
-        HttpResCode.INTERNAL_SERVER_ERROR,
-      );
-    }
-    return process.env.CLOUDINARY_CLOUD_NAME;
-  },
-
-  get CLOUDINARY_API_KEY(): string {
-    if (!process.env.CLOUDINARY_API_KEY) {
-      throw new CustomError(
-        EnvErrMsg.CLOUDINARY_API_KEY_UNDEFINED,
-        HttpResCode.INTERNAL_SERVER_ERROR,
-      );
-    }
-    return process.env.CLOUDINARY_API_KEY;
-  },
-
-  get CLOUDINARY_API_SECRET(): string {
-    if (!process.env.CLOUDINARY_API_SECRET) {
-      throw new CustomError(
-        EnvErrMsg.CLOUDINARY_API_SECRET_UNDEFINED,
-        HttpResCode.INTERNAL_SERVER_ERROR,
-      );
-    }
-    return process.env.CLOUDINARY_API_SECRET;
+    return process.env.REDIS_PASSWORD;
   },
 
   get SMTP_HOST(): string {
@@ -153,7 +122,7 @@ export const env = {
   },
 
   get SMTP_PORT(): number {
-    const port = process.env.SMTP_PORT || '587'; 
+    const port = process.env.SMTP_PORT || '587';
     const portNumber = parseInt(port, 10);
     if (isNaN(portNumber)) {
       throw new CustomError(EnvErrMsg.SMTP_PORT_INVALID, HttpResCode.BAD_REQUEST);
@@ -162,7 +131,7 @@ export const env = {
   },
 
   get SMTP_SECURE(): boolean {
-    return process.env.SMTP_SECURE === 'true'; 
+    return process.env.SMTP_SECURE === 'true';
   },
 
   get SMTP_USERNAME(): string {
@@ -184,5 +153,65 @@ export const env = {
       throw new CustomError(EnvErrMsg.RESEND_API_UNDEFINED, HttpResCode.INTERNAL_SERVER_ERROR);
     }
     return process.env.RESEND_API;
+  },
+
+  get GOOGLE_CLIENT_ID(): string {
+    if (!process.env.GOOGLE_CLIENT_ID) {
+      throw new CustomError(
+        EnvErrMsg.GOOGLE_CLIENT_ID_UNDEFINED,
+        HttpResCode.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return process.env.GOOGLE_CLIENT_ID;
+  },
+
+  get GOOGLE_CLIENT_SECRET(): string {
+    if (!process.env.GOOGLE_CLIENT_SECRET) {
+      throw new CustomError(
+        EnvErrMsg.GOOGLE_CLIENT_SECRET_UNDEFINED,
+        HttpResCode.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return process.env.GOOGLE_CLIENT_SECRET;
+  },
+
+  get GOOGLE_REDIRECT_URI(): string {
+    if (!process.env.GOOGLE_REDIRECT_URI) {
+      throw new CustomError(
+        EnvErrMsg.GOOGLE_REDIRECT_URI_UNDEFINED,
+        HttpResCode.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return process.env.GOOGLE_REDIRECT_URI;
+  },
+
+  get GITHUB_CLIENT_ID(): string {
+    if (!process.env.GITHUB_CLIENT_ID) {
+      throw new CustomError(
+        EnvErrMsg.GITHUB_CLIENT_ID_UNDEFINED,
+        HttpResCode.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return process.env.GITHUB_CLIENT_ID;
+  },
+
+  get GITHUB_CLIENT_SECRET(): string {
+    if (!process.env.GITHUB_CLIENT_SECRET) {
+      throw new CustomError(
+        EnvErrMsg.GITHUB_CLIENT_SECRET_UNDEFINED,
+        HttpResCode.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return process.env.GITHUB_CLIENT_SECRET;
+  },
+
+  get GITHUB_REDIRECT_URI(): string {
+    if (!process.env.GITHUB_REDIRECT_URI) {
+      throw new CustomError(
+        EnvErrMsg.GITHUB_REDIRECT_URI_UNDEFINED,
+        HttpResCode.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return process.env.GITHUB_REDIRECT_URI;
   },
 };

@@ -1,7 +1,10 @@
 import nodemailer, { Transporter } from 'nodemailer';
+import { injectable } from 'inversify';
 import { env } from '../../config/env.config';
+import { IEmailService } from '../../domain/interfaces/services/IEmailService';
 
-class NodemailerService {
+@injectable()
+export class NodemailerService implements IEmailService {
   private _transporter: Transporter;
 
   constructor() {
@@ -21,13 +24,6 @@ class NodemailerService {
     });
   }
 
-  /**
-   * Sends an email with a dynamic subject and content.
-   * @param {string} recipient - Email recipient.
-   * @param {string} subject - Email subject.
-   * @param {string} htmlContent - Email body content in HTML format.
-   * @returns {Promise<void>}
-   */
   async sendEmail(recipient: string, subject: string, htmlContent: string): Promise<void> {
     try {
       await this._transporter.sendMail({
@@ -43,5 +39,3 @@ class NodemailerService {
     }
   }
 }
-
-export const EmailService = new NodemailerService();

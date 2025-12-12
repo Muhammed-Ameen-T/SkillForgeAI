@@ -26,5 +26,8 @@ export const ErrorMsg = {
   INVALID_FILE_ARRAY: 'Mismatch between files and metadata arrays.',
   UPLOAD_FAILED: 'One or more files failed to upload.',
   INVALID_ERROR_CONTEXT: 'Invalid reorder context.',
-  IMAGE_NOT_FOUND: 'Image not found.'
+  IMAGE_NOT_FOUND: 'Image not found.',
+  LOGIN_WITH_SOCIAL_ACCOUNT: 'Please login with your Social Account (Google/GitHub)',
+  USER_NOT_VERIFIED: 'Account is not verified. Please verify your email.',
+  INTERNAL_SERVER_ERROR: 'Internal server error. Please try again later.',
 };

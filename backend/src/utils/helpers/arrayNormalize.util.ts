@@ -6,11 +6,11 @@
  * @returns {T[]} An array containing the normalized values.
  */
 export const normalizeArray = <T>(field: T | T[] | undefined): T[] => {
-    if (Array.isArray(field)) {
-        return field;
-    }
-    if (field === undefined || field === null) {
-        return [];
-    }
-    return [field];
+  if (Array.isArray(field)) {
+    return field;
+  }
+  if (field === undefined || field === null) {
+    return [];
+  }
+  return [field];
 };

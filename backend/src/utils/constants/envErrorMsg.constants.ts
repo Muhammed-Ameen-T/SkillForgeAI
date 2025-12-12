@@ -44,5 +44,8 @@ export const EnvErrMsg = {
   TWILIO_AUTH_TOKEN_UNDEFINED: 'Twilio Auth Token undefined.',
   TWILIO_ACCOUNT_SID_UNDEFINED: 'Twilio Account SID undefined.',
   TWILIO_PHONE_UNDEFINED: 'Twilio phone undefined.',
-  RESEND_API_UNDEFINED: 'Resend API undefined.'
+  RESEND_API_UNDEFINED: 'Resend API undefined.',
+  GITHUB_CLIENT_ID_UNDEFINED: 'Environment variable GITHUB_CLIENT_ID is undefined.',
+  GITHUB_CLIENT_SECRET_UNDEFINED: 'Environment variable GITHUB_CLIENT_SECRET is undefined.',
+  GITHUB_REDIRECT_URI_UNDEFINED: 'Environment variable GITHUB_REDIRECT_URI is undefined.',
 };

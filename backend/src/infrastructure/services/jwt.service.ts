@@ -1,54 +1,52 @@
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { injectable } from 'inversify';
 import { env } from '../../config/env.config';
+import { IJwtService } from '../../domain/interfaces/services/IJwtService';
 
-
-export class JwtService {
+@injectable()
+export class JwtService implements IJwtService {
   private _accessSecret: string = env.ACCESS_TOKEN_SECRET;
   private _refreshSecret: string = env.REFRESH_TOKEN_SECRET;
   private _accessExpiry: string = env.ACCESS_TOKEN_EXPIRY;
   private _refreshExpiry: string = env.REFRESH_TOKEN_EXPIRY;
 
   /**
-   * Generates an access token for authentication.
-   * @param {string} userId - The unique ID of the user.
-   * @param {string} role - The role assigned to the user (e.g., admin, user).
-   * @returns {string} A signed JWT access token.
+   * Generates an access token including User ID and Role.
    */
-  generateAccessToken(userId: string): string {
-    return jwt.sign({ userId }, this._accessSecret, {
+  generateAccessToken(userId: string, role: string): string {
+    return jwt.sign({ userId, role }, this._accessSecret, {
       expiresIn: this._accessExpiry as jwt.SignOptions['expiresIn'],
     });
   }
 
   /**
-   * Generates a refresh token for session renewal.
-   * @param {string} userId - The unique ID of the user.
-   * @param {string} role - The role assigned to the user.
-   * @returns {string} A signed JWT refresh token.
+   * Generates a refresh token including User ID and Role.
    */
-  generateRefreshToken(userId: string): string {
-    return jwt.sign({ userId }, this._refreshSecret, {
+  generateRefreshToken(userId: string, role: string): string {
+    return jwt.sign({ userId, role }, this._refreshSecret, {
       expiresIn: this._refreshExpiry as jwt.SignOptions['expiresIn'],
     });
   }
 
   /**
-   * Verifies and decodes an access token.
-   * @param {string} token - The JWT access token to verify.
-   * @returns {{ userId: string }} The decoded payload containing the user's ID.
-   * @throws {jwt.JsonWebTokenError} If the token is invalid or expired.
+   * Verifies access token. Returns decoded payload or null if invalid.
    */
-  verifyAccessToken(token: string): { userId: string } {
-    return jwt.verify(token, this._accessSecret) as { userId: string };
+  verifyAccessToken(token: string): { userId: string; role: string } | null {
+    try {
+      return jwt.verify(token, this._accessSecret) as { userId: string; role: string };
+    } catch (error) {
+      return null;
+    }
   }
 
   /**
-   * Verifies and decodes a refresh token.
-   * @param {string} token - The JWT refresh token to verify.
-   * @returns {{ userId: string }} The decoded payload containing the user's ID.
-   * @throws {jwt.JsonWebTokenError} If the token is invalid or expired.
+   * Verifies refresh token. Returns decoded payload or null if invalid.
    */
-  verifyRefreshToken(token: string): { userId: string } {
-    return jwt.verify(token, this._refreshSecret) as { userId: string };
+  verifyRefreshToken(token: string): { userId: string; role: string } | null {
+    try {
+      return jwt.verify(token, this._refreshSecret) as { userId: string; role: string };
+    } catch (error) {
+      return null;
+    }
   }
 }

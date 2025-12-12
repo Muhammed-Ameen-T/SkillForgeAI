@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [env.CLIENT_ORIGIN, 'http://localhost:3000', 'https://stock-image-platform-git-main-muhammed-ameen-ts-projects.vercel.app'],
+    origin: [env.CLIENT_ORIGIN],
     credentials: true,
   }),
 );
@@ -23,14 +23,11 @@ app.use(cookieParser());
 app.use(express.json());
 
 import userAuthRoutes from './presentation/routes/userAuth.routes';
-import userImageRoutes from './presentation/routes/imageMng.routes';
 
 app.use('/api/auth', userAuthRoutes);
-app.use('/api/images', userImageRoutes);
 
 app.use(requestLogger);
 app.use(errorHandler);
-
 
 const PORT = env.PORT;
 const startServer = async () => {
@@ -39,7 +36,7 @@ const startServer = async () => {
     const server = createServer(app);
 
     server.listen(PORT, () => {
-      console.log(`${SuccessMsg.SERVER_RUNNING} ${PORT} 🚀`);
+      console.log(`${SuccessMsg.SERVER_RUNNING(PORT)}`);
     });
   } catch (error) {
     console.error(ErrorMsg.FAILED_START_SERVER, error);

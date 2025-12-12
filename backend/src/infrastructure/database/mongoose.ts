@@ -5,7 +5,6 @@ import { ErrorMsg } from '../../utils/constants/commonErrorMsg.constants';
 
 const MONGO_URI = env.MONGO_URI;
 
-
 /**
  * Establishes a connection to the MongoDB database using Mongoose.
  * Loads the database URI from environment variables.

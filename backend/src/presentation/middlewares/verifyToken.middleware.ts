@@ -9,8 +9,7 @@ import { IUserRepository } from '../../domain/interfaces/repositories/user.repos
 import { TYPES } from '../../core/types';
 import { container } from '../../core/inversify.config';
 
-
-const jwtService = container.get<JwtService>(TYPES.JwtService); 
+const jwtService = container.get<JwtService>(TYPES.JwtService);
 
 declare global {
   namespace Express {
@@ -44,7 +43,7 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
         try {
           const decodedRefresh = jwt.verify(refreshToken, env.REFRESH_TOKEN_SECRET) as IJwtDecoded;
 
-          const userRepository = container.get<IUserRepository>(TYPES.UserRepository); 
+          const userRepository = container.get<IUserRepository>(TYPES.UserRepository);
           const user = await userRepository.findById(decodedRefresh.userId);
 
           if (!user || !user._id) {

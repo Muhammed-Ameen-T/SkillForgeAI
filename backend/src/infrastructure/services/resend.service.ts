@@ -1,13 +1,13 @@
 import { Resend } from 'resend';
 import { env } from '../../config/env.config';
-const RESEND_API = env.RESEND_API
+const RESEND_API = env.RESEND_API;
 const resend = new Resend(RESEND_API);
 
 class ResendService {
   async sendEmail(recipient: string, subject: string, htmlContent: string): Promise<void> {
     try {
       const response = await resend.emails.send({
-        from: 'onboarding@resend.dev', 
+        from: 'onboarding@resend.dev',
         to: recipient,
         subject,
         html: htmlContent,

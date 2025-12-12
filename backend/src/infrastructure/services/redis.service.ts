@@ -1,42 +1,37 @@
 import { createClient } from 'redis';
+import { injectable } from 'inversify';
+import { ICacheService } from '../../domain/interfaces/services/ICacheService';
+import { ErrorMsg } from '../../utils/constants/commonErrorMsg.constants';
 import { env } from '../../config/env.config';
 import { SuccessMsg } from '../../utils/constants/commonSuccessMsg.constants';
-import { ErrorMsg } from '../../utils/constants/commonErrorMsg.constants';
 
-/**
- * RedisService provides an abstraction for interacting with a Redis database.
- * It supports basic operations such as setting, retrieving, and deleting keys.
- */
-export class RedisService {
+@injectable()
+export class RedisService implements ICacheService {
   private _client: ReturnType<typeof createClient>;
 
-  /**
-   * Initializes the Redis client and connects to the Redis server.
-   * Handles connection events and logs errors if  occures.
-   */
   constructor() {
     this._client = createClient({
-      url: env.REDIS_URL, // Uses the cloud Redis URL
+      url: env.REDIS_URL,
     });
 
-    this._client.on('error', (err) =>
-      console.error(ErrorMsg.REDIS_CONNECTION_ERROR, err),
-    );
-    this._client.on('connect', () => console.log(SuccessMsg.REDIS_CONNECTED));
+    this._client.on('error', (err) => console.error(ErrorMsg.REDIS_CONNECTION_ERROR, err));
 
-    this._client
-      .connect()
-      .catch((err) => console.error(ErrorMsg.REDIS_CONNECTION_ERROR, err));
+    this.connect();
   }
 
-  /**
-   * Stores a key-value pair in Redis with an expiration time.
-   * @param {string} key - The key under which the value is stored.
-   * @param {string} value - The value to store in Redis.
-   * @param {number} expirySeconds - Expiration time in seconds.
-   * @returns {Promise<void>} Resolves if the operation is successful.
-   * @throws {Error} If the Redis operation fails.
-   */
+  private async connect() {
+    if (!this._client.isOpen) {
+      await this._client
+        .connect()
+        .then(() => {
+          console.log(SuccessMsg.REDIS_CONNECTED);
+        })
+        .catch((err) => {
+          console.error(ErrorMsg.REDIS_CONNECTION_ERROR, err);
+        });
+    }
+  }
+
   async set(key: string, value: string, expirySeconds: number): Promise<void> {
     try {
       await this._client.setEx(key, expirySeconds, value);
@@ -45,12 +40,6 @@ export class RedisService {
     }
   }
 
-  /**
-   * Retrieves a value from Redis based on the provided key.
-   * @param {string} key - The key to fetch the value for.
-   * @returns {Promise<string | null>} The value stored in Redis or null if not found.
-   * @throws {Error} If the Redis operation fails.
-   */
   async get(key: string): Promise<string | null> {
     try {
       return await this._client.get(key);
@@ -59,12 +48,6 @@ export class RedisService {
     }
   }
 
-  /**
-   * Deletes a key-value pair from Redis.
-   * @param {string} key - The key to delete.
-   * @returns {Promise<void>} Resolves if the operation is successful.
-   * @throws {Error} If the Redis operation fails.
-   */
   async del(key: string): Promise<void> {
     try {
       await this._client.del(key);

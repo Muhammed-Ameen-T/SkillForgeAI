@@ -6,7 +6,7 @@ export class AuthResponseDTO {
       id: string;
       name: string;
       email: string;
-      phoneNumber: string;
+      role: string;
     },
   ) {}
 }
@@ -18,22 +18,23 @@ export class LoginDTO {
   ) {}
 }
 
+export class SocialLoginDTO {
+  constructor(public code: string) {}
+}
 
 export class VerifyOtpDTO {
   constructor(
     public name: string,
     public email: string,
-    public phoneNumber: string,
     public otp: string,
     public password: string,
   ) {}
 }
 
-
 export class ChangePasswordDTO {
   constructor(
     public userId: string,
     public oldPassword: string,
-    public newPassword: string
+    public newPassword: string,
   ) {}
 }

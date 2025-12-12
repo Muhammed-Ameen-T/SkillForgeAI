@@ -1,5 +1,5 @@
 export const SuccessMsg = {
-  SERVER_RUNNING: 'Server running on port',
+  // SERVER_RUNNING: 'Server running on port',
   PARSING_SUCCESS: 'Parsing Success',
   DATABASE_CONNECTED: 'Database connection successfull',
   OTP_SENT: 'OTP sent successfully',
@@ -14,4 +14,5 @@ export const SuccessMsg = {
   IMAGE_UPDATED: 'Image updated successfully',
   PASSWORD_CHANGED: 'Password changed successfully',
   IMAGE_REORDERED: 'Image reordered successfully',
+  SERVER_RUNNING: (port: number) => `Server is running on port ${port} 🚀`,
 };
